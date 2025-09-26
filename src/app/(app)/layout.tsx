@@ -17,6 +17,7 @@ import {
   UserCog,
   BarChart,
   Shield,
+  X,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -25,6 +26,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -65,6 +67,7 @@ export default async function AppLayout({
       { href: "/admin/reports", icon: BarChart, label: "Reports & Analytics" },
       { href: "/admin/notifications", icon: Bell, label: "Notifications" },
       { href: "/admin/users", icon: Users, label: "User Management" },
+      { href: "/admin/roles", icon: Shield, label: "Role Management" },
       { href: "/admin/settings", icon: Settings, label: "Settings" },
     ],
     staff: [], // Add staff links if needed
@@ -109,9 +112,15 @@ export default async function AppLayout({
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
-                  Contact Support
-                </Button>
+                 <div className="flex gap-2">
+                    <Button size="sm" className="w-full">
+                    Contact Support
+                    </Button>
+                    <Button size="sm" variant="outline" className="w-full">
+                        <X className="h-4 w-4 mr-2" />
+                        Cancel
+                    </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -159,9 +168,15 @@ export default async function AppLayout({
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button size="sm" className="w-full">
-                      Contact Support
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button size="sm" className="w-full">
+                        Contact Support
+                        </Button>
+                        <Button size="sm" variant="outline" className="w-full">
+                            <X className="h-4 w-4 mr-2" />
+                            Cancel
+                        </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
