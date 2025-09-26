@@ -13,13 +13,23 @@ import { ApplicationsTable } from "@/components/admin/applications-table"
 import { mockApplications } from "@/lib/data"
 import { Application } from "@/lib/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useSearchParams } from "next/navigation"
 
 export default function AdminApplicationsPage() {
   const [applications, setApplications] = React.useState<Application[]>(mockApplications);
+  const searchParams = useSearchParams();
+  const status = searchParams.get("status");
 
   const underReviewApps = applications.filter(a => a.status === 'Under Review' || a.status === 'Submitted' || a.status === 'Correction Requested');
   const approvedApps = applications.filter(a => a.status === 'Accepted');
   const rejectedApps = applications.filter(a => a.status === 'Rejected');
+
+  const getTabValue = () => {
+    if (status === 'Accepted') return 'approved';
+    if (status === 'Rejected') return 'rejected';
+    if (status === 'Under Review' || status === 'Submitted' || status === 'Correction Requested') return 'review';
+    return 'review';
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -34,7 +44,7 @@ export default function AdminApplicationsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-           <Tabs defaultValue="review">
+           <Tabs defaultValue={getTabValue()}>
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="review">Under Review ({underReviewApps.length})</TabsTrigger>
               <TabsTrigger value="approved">Approved ({approvedApps.length})</TabsTrigger>

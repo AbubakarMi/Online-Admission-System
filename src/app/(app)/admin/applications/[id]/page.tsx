@@ -312,5 +312,3 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
     </div>
   )
 }
-
-    
