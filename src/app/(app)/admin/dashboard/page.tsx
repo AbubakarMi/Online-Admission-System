@@ -4,18 +4,18 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { mockApplications } from "@/lib/data"
-import { Users, BarChart, Activity, XCircle, ArrowRight } from "lucide-react"
+import { Users, BarChart, Activity, XCircle, ArrowRight, FolderCheck, UserCog, Settings } from "lucide-react"
 import { ApplicationSummary } from "@/components/admin/application-summary"
 import Link from "next/link"
+import { AnalyticsCharts } from "@/components/admin/analytics-charts"
 
 export default function AdminDashboardPage() {
   const totalApplications = mockApplications.length;
   const acceptedCount = mockApplications.filter(a => a.status === 'Accepted').length;
-  const reviewCount = mockApplications.filter(a => a.status === 'Under Review').length;
+  const reviewCount = mockApplications.filter(a => a.status === 'Under Review' || a.status === 'Submitted').length;
   const rejectedCount = mockApplications.filter(a => a.status === 'Rejected').length;
 
   return (
@@ -48,7 +48,7 @@ export default function AdminDashboardPage() {
             <CardContent>
               <div className="text-2xl font-bold">{acceptedCount}</div>
               <p className="text-xs text-muted-foreground">
-                {((acceptedCount / totalApplications) * 100).toFixed(1)}% acceptance rate
+                {totalApplications > 0 ? ((acceptedCount / totalApplications) * 100).toFixed(1) : 0}% acceptance rate
               </p>
             </CardContent>
           </Card>
@@ -72,48 +72,58 @@ export default function AdminDashboardPage() {
             <CardContent>
               <div className="text-2xl font-bold">{rejectedCount}</div>
                <p className="text-xs text-muted-foreground">
-                {((rejectedCount / totalApplications) * 100).toFixed(1)}% rejection rate
+                {totalApplications > 0 ? ((rejectedCount / totalApplications) * 100).toFixed(1) : 0}% rejection rate
               </p>
             </CardContent>
           </Card>
         </div>
       
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Applications</CardTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+                <Card className="h-full">
+                    <CardHeader>
+                        <CardTitle>Application Trends</CardTitle>
+                        <CardDescription>
+                            Visualize application submission trends over the past year.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <AnalyticsCharts applications={mockApplications} chartTypes={['trend']} />
+                    </CardContent>
+                </Card>
+            </div>
+             <div className="space-y-6">
+                <Card>
+                    <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-2">
+                        <Button asChild variant="outline" className="justify-start">
+                            <Link href="/admin/applications">View All Applications <ArrowRight className="ml-auto"/></Link>
+                        </Button>
+                        <Button asChild variant="outline" className="justify-start">
+                            <Link href="/admin/verification">Verify Documents <FolderCheck className="ml-auto"/></Link>
+                        </Button>
+                        <Button asChild variant="outline" className="justify-start">
+                            <Link href="/admin/reviewers">Manage Reviewers <UserCog className="ml-auto"/></Link>
+                        </Button>
+                        <Button asChild variant="outline" className="justify-start">
+                            <Link href="/admin/settings">System Settings <Settings className="ml-auto"/></Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader>
+                    <CardTitle>Applicant Pool Summary</CardTitle>
                     <CardDescription>
-                    A quick look at the most recent applications submitted.
+                        Generate an AI-powered summary of all applications.
                     </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {mockApplications.slice(0, 3).map(app => (
-                    <div key={app.id} className="flex items-center justify-between py-2 border-b last:border-none">
-                      <div>
-                        <p className="font-medium">{app.studentName}</p>
-                        <p className="text-sm text-muted-foreground">{app.course}</p>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{app.submissionDate}</p>
-                    </div>
-                  ))}
-                </CardContent>
-                <CardFooter>
-                    <Button asChild variant="outline" className="w-full">
-                        <Link href="/admin/applications">View All Applications <ArrowRight /></Link>
-                    </Button>
-                </CardFooter>
-            </Card>
-            <Card>
-                <CardHeader>
-                <CardTitle>Applicant Pool Summary</CardTitle>
-                <CardDescription>
-                    Generate an AI-powered summary of all applications to identify key trends and top candidates.
-                </CardDescription>
-                </CardHeader>
-                <CardContent>
-                <ApplicationSummary />
-                </CardContent>
-            </Card>
+                    </CardHeader>
+                    <CardContent>
+                    <ApplicationSummary />
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     </div>
   )
