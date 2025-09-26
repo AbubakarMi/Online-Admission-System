@@ -1,3 +1,4 @@
+
 "use client"
 
 import {
@@ -28,6 +29,8 @@ import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 import { Application } from "@/lib/types"
 import Image from "next/image"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 
 type Params = {
   id: string
@@ -73,12 +76,13 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
   )
   const profile = mockStudentProfile
   const [isReviewerAssigned, setIsReviewerAssigned] = React.useState(false);
+  const [rejectionReason, setRejectionReason] = React.useState("");
 
   if (!application) {
     return notFound()
   }
 
-  const handleUpdateStatus = (newStatus: Application["status"]) => {
+  const handleUpdateStatus = (newStatus: Application["status"], reason?: string) => {
     setApplication(prev => prev ? { ...prev, status: newStatus } : prev)
     
     const appIndex = mockApplications.findIndex(a => a.id === params.id);
@@ -88,9 +92,17 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
 
     toast({
       title: `Application ${newStatus}`,
-      description: `${application.studentName}'s application has been updated to ${newStatus}.`,
+      description: reason 
+        ? `${application.studentName}'s application has been updated. Reason: ${reason}`
+        : `${application.studentName}'s application has been updated to ${newStatus}.`,
     });
+    setRejectionReason("");
   }
+  
+  const handleReject = () => {
+    handleUpdateStatus('Rejected', rejectionReason || "No reason provided.");
+  }
+
 
   const handleAssignReviewer = () => {
     setIsReviewerAssigned(true);
@@ -129,7 +141,40 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
         </div>
         <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => handleUpdateStatus('Correction Requested')}>Request Correction</Button>
-            <Button variant="destructive" className="gap-2" onClick={() => handleUpdateStatus('Rejected')} disabled={application.status === 'Rejected'}><ThumbsDown />Reject</Button>
+            
+            <Dialog>
+              <DialogTrigger asChild>
+                 <Button variant="destructive" className="gap-2" disabled={application.status === 'Rejected'}><ThumbsDown />Reject</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Reason for Rejection</DialogTitle>
+                  <DialogDescription>
+                    Please provide a reason for rejecting this application. This may be shared with the applicant.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <Label htmlFor="rejection-reason" className="sr-only">
+                    Rejection Reason
+                  </Label>
+                  <Textarea
+                    id="rejection-reason"
+                    placeholder="e.g., Incomplete application, does not meet academic requirements..."
+                    value={rejectionReason}
+                    onChange={(e) => setRejectionReason(e.target.value)}
+                  />
+                </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="ghost">Cancel</Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button variant="destructive" onClick={handleReject} disabled={!rejectionReason}>Confirm Rejection</Button>
+                    </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
             <Button className="bg-accent hover:bg-accent/90 gap-2" onClick={() => handleUpdateStatus('Accepted')} disabled={application.status === 'Accepted'}><ThumbsUp />Approve</Button>
         </div>
       </div>
@@ -267,3 +312,5 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
     </div>
   )
 }
+
+    
