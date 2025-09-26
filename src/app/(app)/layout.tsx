@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   Users,
   User,
+  Menu
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -113,7 +114,7 @@ export default async function AppLayout({
                 size="icon"
                 className="shrink-0 md:hidden"
               >
-                <item.icon className="h-5 w-5" />
+                <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
