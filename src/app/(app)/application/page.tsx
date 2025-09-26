@@ -1,3 +1,6 @@
+
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -16,10 +19,25 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
 import { Upload } from "lucide-react"
+import * as React from "react"
+import { courseData } from "@/lib/data"
+
 
 export default function ApplicationPage() {
+    const [selectedFaculty, setSelectedFaculty] = React.useState<string>("");
+    const [availableCourses, setAvailableCourses] = React.useState<string[]>([]);
+    const [selectedCourse, setSelectedCourse] = React.useState<string>("");
+
+    const faculties = Object.keys(courseData);
+
+    const handleFacultyChange = (faculty: string) => {
+        setSelectedFaculty(faculty);
+        setAvailableCourses(courseData[faculty as keyof typeof courseData] || []);
+        setSelectedCourse(""); // Reset course selection
+    }
+
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center">
@@ -91,32 +109,27 @@ export default function ApplicationPage() {
             <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                     <Label htmlFor="faculty">Faculty</Label>
-                    <Select>
+                    <Select onValueChange={handleFacultyChange} value={selectedFaculty}>
                         <SelectTrigger id="faculty">
                             <SelectValue placeholder="Select a faculty" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="tech">Science & Technology</SelectItem>
-                            <SelectItem value="business">Business School</SelectItem>
-                            <SelectItem value="engineering">Engineering</SelectItem>
-                            <SelectItem value="arts">Arts & Humanities</SelectItem>
-                            <SelectItem value="social">Social Sciences</SelectItem>
+                            {faculties.map((faculty) => (
+                                <SelectItem key={faculty} value={faculty}>{faculty}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="program">Program/Course</Label>
-                     <Select>
+                     <Select value={selectedCourse} onValueChange={setSelectedCourse} disabled={!selectedFaculty}>
                         <SelectTrigger id="program">
                             <SelectValue placeholder="Select a program" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="cs">Computer Science</SelectItem>
-                            <SelectItem value="ds">Data Science</SelectItem>
-                            <SelectItem value="ba">Business Administration</SelectItem>
-                            <SelectItem value="me">Mechanical Engineering</SelectItem>
-                            <SelectItem value="fa">Fine Arts</SelectItem>
-                            <SelectItem value="psy">Psychology</SelectItem>
+                            {availableCourses.map((course) => (
+                                <SelectItem key={course} value={course}>{course}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>

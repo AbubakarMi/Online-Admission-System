@@ -71,3 +71,11 @@ export const mockNotifications: Notification[] = [
   { id: 'NOTIF003', title: 'Application Approved', description: 'Laura Taylor\'s application for Biology has been approved.', timestamp: '2 days ago', isRead: true, link: '/admin/applications/APP006' },
   { id: 'NOTIF004', title: 'Reviewer Assigned', description: 'Dr. Evelyn Reed has been assigned to a new application.', timestamp: '3 days ago', isRead: true, link: '/admin/reviewers' },
 ];
+
+export const courseData: Record<string, string[]> = {
+    'Science & Technology': ['Computer Science', 'Data Science', 'Biology', 'Physics', 'Chemistry'],
+    'Business School': ['Business Administration', 'Marketing', 'Finance', 'Accounting', 'International Business'],
+    'Engineering': ['Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Software Engineering', 'Aerospace Engineering'],
+    'Arts & Humanities': ['Fine Arts', 'History', 'Literature', 'Philosophy', 'Music'],
+    'Social Sciences': ['Psychology', 'Sociology', 'Political Science', 'Economics', 'Anthropology']
+};
