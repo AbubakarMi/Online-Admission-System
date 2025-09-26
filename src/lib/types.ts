@@ -3,6 +3,7 @@ export type User = {
   name: string;
   email: string;
   role: 'student' | 'admin' | 'staff';
+  status: 'Active' | 'Inactive';
 };
 
 export type Application = {

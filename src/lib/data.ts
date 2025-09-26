@@ -3,8 +3,13 @@ import { Document } from '@/components/admin/document-verification-table';
 
 
 export const mockUsers: User[] = [
-  { id: '1', name: 'Admin User', email: 'admin@campus.connect', role: 'admin' },
-  { id: '2', name: 'Jane Doe', email: 'jane.doe@campus.connect', role: 'student' },
+  { id: '1', name: 'Admin User', email: 'admin@campus.connect', role: 'admin', status: 'Active' },
+  { id: '2', name: 'Jane Doe', email: 'jane.doe@campus.connect', role: 'student', status: 'Active' },
+  { id: 'usr_001', name: 'John Smith', email: 'john.smith@example.com', role: 'student', status: 'Active' },
+  { id: 'usr_002', name: 'Emily Jones', email: 'emily.jones@example.com', role: 'student', status: 'Active' },
+  { id: 'usr_003', name: 'Michael Brown', email: 'michael.brown@example.com', role: 'student', status: 'Active' },
+  { id: 'usr_004', name: 'Dr. Evelyn Reed', email: 'evelyn.reed@university.edu', role: 'staff', status: 'Active' },
+  { id: 'usr_005', name: 'Samuel Chen', email: 'samuel.chen@university.edu', role: 'staff', status: 'Inactive' },
 ];
 
 export const mockApplications: Application[] = [
