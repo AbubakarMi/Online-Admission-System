@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link"
 import {
   Bell,
@@ -19,6 +21,7 @@ import {
   Shield,
   X,
 } from "lucide-react"
+import * as React from "react";
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -44,13 +47,20 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { getCurrentUser } from "@/lib/auth"
 import { UserNav } from "@/components/user-nav"
 import { Logo } from "@/components/logo"
+import { User as UserType } from "@/lib/types";
 
-export default async function AppLayout({
+export default function AppLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const user = await getCurrentUser();
+  const [user, setUser] = React.useState<UserType | null>(null);
+  const [isHelpCardVisible, setIsHelpCardVisible] = React.useState(true);
+  
+  React.useEffect(() => {
+    getCurrentUser().then(setUser);
+  }, []);
+
   const userRole = user?.role || 'student';
 
   const navItems = {
@@ -74,6 +84,39 @@ export default async function AppLayout({
   };
 
   const currentNavItems = navItems[userRole] || navItems.student;
+
+  const handleCancelHelp = () => {
+    setIsHelpCardVisible(false);
+  }
+
+  const HelpCard = () => (
+     <Card>
+        <CardHeader className="p-2 pt-0 md:p-4 relative">
+          <CardTitle>Need Help?</CardTitle>
+          <CardDescription>
+            Contact support for assistance with your application.
+          </CardDescription>
+            <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-6 w-6" onClick={handleCancelHelp}>
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close help</span>
+            </Button>
+        </CardHeader>
+        <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+            <Button size="sm" className="w-full">
+            Contact Support
+            </Button>
+        </CardContent>
+    </Card>
+  )
+
+  if (!user) {
+    // You can render a loading state here
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -104,25 +147,7 @@ export default async function AppLayout({
             </nav>
           </div>
           <div className="mt-auto p-4">
-            <Card>
-              <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Need Help?</CardTitle>
-                <CardDescription>
-                  Contact support for assistance with your application.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                 <div className="flex gap-2">
-                    <Button size="sm" className="w-full">
-                    Contact Support
-                    </Button>
-                    <Button size="sm" variant="outline" className="w-full">
-                        <X className="h-4 w-4 mr-2" />
-                        Cancel
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
+            {isHelpCardVisible && <HelpCard />}
           </div>
         </div>
       </div>
@@ -160,25 +185,7 @@ export default async function AppLayout({
                 ))}
               </nav>
               <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Need Help?</CardTitle>
-                    <CardDescription>
-                      Contact support for assistance with your application.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex gap-2">
-                        <Button size="sm" className="w-full">
-                        Contact Support
-                        </Button>
-                        <Button size="sm" variant="outline" className="w-full">
-                            <X className="h-4 w-4 mr-2" />
-                            Cancel
-                        </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                 {isHelpCardVisible && <HelpCard />}
               </div>
             </SheetContent>
           </Sheet>
