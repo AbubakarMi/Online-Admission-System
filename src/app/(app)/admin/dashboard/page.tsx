@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -55,13 +56,13 @@ export default function AdminDashboardPage() {
             <div className="lg:col-span-2">
                 <Card className="h-full">
                     <CardHeader>
-                        <CardTitle>Application Analytics</CardTitle>
+                        <CardTitle>Application Submission Trends</CardTitle>
                         <CardDescription>
-                           An overview of application trends, faculty distribution, and status breakdowns.
+                           An overview of application volume over the past months.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <AnalyticsCharts applications={mockApplications} />
+                        <AnalyticsCharts applications={mockApplications} chartTypes={['trend']} />
                     </CardContent>
                 </Card>
             </div>
