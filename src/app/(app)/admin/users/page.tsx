@@ -60,7 +60,7 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Users</h1>
          <Dialog>
@@ -163,6 +163,6 @@ export default function UsersPage() {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    </div>
+    </>
   );
 }

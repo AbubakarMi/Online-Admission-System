@@ -64,8 +64,7 @@ export default async function AppLayout({
       { href: "/admin/reviewers", icon: UserCog, label: "Reviewers" },
       { href: "/admin/reports", icon: BarChart, label: "Reports & Analytics" },
       { href: "/admin/notifications", icon: Bell, label: "Notifications" },
-      { href: "/admin/users", icon: Users, label: "Users" },
-      { href: "/admin/roles", icon: Shield, label: "Roles" },
+      { href: "/admin/users", icon: Users, label: "User Management" },
       { href: "/admin/settings", icon: Settings, label: "Settings" },
     ],
     staff: [], // Add staff links if needed
