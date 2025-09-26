@@ -37,3 +37,11 @@ export type Profile = {
     recommendationLetter?: File | null;
   };
 };
+
+export type Reviewer = {
+  id: string;
+  name: string;
+  email: string;
+  assignedApplications: number;
+  status: 'Active' | 'Inactive';
+};

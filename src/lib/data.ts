@@ -1,4 +1,4 @@
-import type { Application, User, Profile } from './types';
+import type { Application, User, Profile, Reviewer } from './types';
 import { Document } from '@/components/admin/document-verification-table';
 
 
@@ -52,4 +52,11 @@ export const mockStudentProfile: Profile = {
     { id: 'DOC004', applicantName: 'Michael Brown', applicationId: 'APP003', documentType: 'Academic Transcript', submittedDate: '2024-05-15', status: 'Pending' },
     { id: 'DOC005', applicantName: 'Sarah Davis', applicationId: 'APP004', documentType: 'Academic Transcript', submittedDate: '2024-05-18', status: 'Rejected' },
   ];
+
+  export const mockReviewers: Reviewer[] = [
+    { id: 'REV01', name: 'Dr. Evelyn Reed', email: 'evelyn.reed@university.edu', assignedApplications: 5, status: 'Active' },
+    { id: 'REV02', name: 'Dr. Samuel Chen', email: 'samuel.chen@university.edu', assignedApplications: 3, status: 'Active' },
+    { id: 'REV03', name: 'Prof. Olivia Grant', email: 'olivia.grant@university.edu', assignedApplications: 8, status: 'Active' },
+    { id: 'REV04', name: 'Dr. Benjamin Carter', email: 'ben.carter@university.edu', assignedApplications: 0, status: 'Inactive' },
+  ]
   
