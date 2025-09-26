@@ -47,7 +47,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
 
 export type Document = {
   id: string
@@ -56,6 +55,12 @@ export type Document = {
   documentType: "Academic Transcript" | "Recommendation Letter" | "Passport"
   submittedDate: string
   status: "Pending" | "Verified" | "Rejected"
+}
+
+type DocumentVerificationTableProps = {
+    documents: Document[]
+    onStatusChange: (docId: string, newStatus: Document["status"]) => void
+    hideActions?: boolean
 }
 
 const getStatusBadgeVariant = (status: Document["status"]) => {
@@ -71,22 +76,7 @@ const getStatusBadgeVariant = (status: Document["status"]) => {
   }
 }
 
-export function DocumentVerificationTable({ documents: initialDocuments }: { documents: Document[] }) {
-  const { toast } = useToast()
-  const [documents, setDocuments] = React.useState(initialDocuments)
-  
-  const handleStatusChange = (docId: string, newStatus: Document["status"]) => {
-    setDocuments(currentDocs => 
-      currentDocs.map(doc => 
-        doc.id === docId ? { ...doc, status: newStatus } : doc
-      )
-    )
-    const doc = documents.find(d => d.id === docId);
-    toast({
-        title: `Document ${newStatus}`,
-        description: `${doc?.applicantName}'s ${doc?.documentType} has been marked as ${newStatus}.`
-    })
-  }
+export function DocumentVerificationTable({ documents, onStatusChange, hideActions = false }: DocumentVerificationTableProps) {
 
   const columns: ColumnDef<Document>[] = [
     {
@@ -126,6 +116,16 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
         const document = row.original
         const isActionable = document.status === "Pending"
 
+        if (hideActions) {
+            return (
+                 <Button variant="outline" size="sm" asChild>
+                    <Link href={`/admin/applications/${document.applicationId}`}>
+                        <Eye className="mr-2 h-4 w-4" /> View
+                    </Link>
+                </Button>
+            )
+        }
+
         return (
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
@@ -137,7 +137,7 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
               variant="default"
               size="sm"
               className="bg-accent hover:bg-accent/90"
-              onClick={() => handleStatusChange(document.id, "Verified")}
+              onClick={() => onStatusChange(document.id, "Verified")}
               disabled={!isActionable}
             >
               <CheckCircle className="mr-2 h-4 w-4" /> Verify
@@ -145,7 +145,7 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
             <Button
               variant="destructive"
               size="sm"
-              onClick={() => handleStatusChange(document.id, "Rejected")}
+              onClick={() => onStatusChange(document.id, "Rejected")}
               disabled={!isActionable}
             >
               <XCircle className="mr-2 h-4 w-4" /> Reject
@@ -191,27 +191,6 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
           }
           className="max-w-sm"
         />
-        <Select
-          value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) => {
-            if (value === "all") {
-              table.getColumn("status")?.setFilterValue(undefined)
-            } else {
-              table.getColumn("status")?.setFilterValue(value)
-            }
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="Pending">Pending</SelectItem>
-            <SelectItem value="Verified">Verified</SelectItem>
-            <SelectItem value="Rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -282,7 +261,7 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No documents found.
                 </TableCell>
               </TableRow>
             )}
