@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -37,6 +38,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Reviewer } from "@/lib/types"
+import Link from "next/link"
 
 const getStatusBadgeVariant = (status: Reviewer["status"]) => {
   switch (status) {
@@ -49,7 +51,16 @@ const getStatusBadgeVariant = (status: Reviewer["status"]) => {
   }
 }
 
-export const columns: ColumnDef<Reviewer>[] = [
+type ReviewersTableProps = {
+  reviewers: Reviewer[];
+  onDeactivate: (reviewerId: string) => void;
+  onEdit: (reviewer: Reviewer) => void;
+}
+
+
+export function ReviewersTable({ reviewers, onDeactivate, onEdit }: ReviewersTableProps) {
+  
+  const columns: ColumnDef<Reviewer>[] = [
   {
     accessorKey: "name",
     header: "Reviewer Name",
@@ -102,11 +113,17 @@ export const columns: ColumnDef<Reviewer>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>View Assigned Applications</DropdownMenuItem>
-                <DropdownMenuItem>Edit Reviewer Details</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/admin/applications">View Assigned Applications</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onEdit(reviewer)}>Edit Reviewer Details</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
-                Deactivate Reviewer
+                <DropdownMenuItem 
+                  className="text-red-600" 
+                  onClick={() => onDeactivate(reviewer.id)}
+                  disabled={reviewer.status === 'Inactive'}
+                >
+                  Deactivate Reviewer
                 </DropdownMenuItem>
             </DropdownMenuContent>
             </DropdownMenu>
@@ -115,8 +132,7 @@ export const columns: ColumnDef<Reviewer>[] = [
     },
   },
 ]
-
-export function ReviewersTable({ reviewers }: { reviewers: Reviewer[] }) {
+  
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 

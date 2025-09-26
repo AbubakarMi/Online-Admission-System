@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -34,6 +35,8 @@ export default function ReviewersPage() {
   const [newReviewerName, setNewReviewerName] = React.useState("")
   const [newReviewerEmail, setNewReviewerEmail] = React.useState("")
 
+  const [editingReviewer, setEditingReviewer] = React.useState<Reviewer | null>(null);
+
   const handleAddReviewer = () => {
     if (!newReviewerName || !newReviewerEmail) {
         toast({
@@ -61,6 +64,29 @@ export default function ReviewersPage() {
 
     setNewReviewerName("")
     setNewReviewerEmail("")
+  }
+
+  const handleDeactivate = (reviewerId: string) => {
+    setReviewers(reviewers.map(r => r.id === reviewerId ? { ...r, status: 'Inactive' } : r))
+    toast({
+      title: "Reviewer Deactivated",
+      description: "The reviewer's status has been set to Inactive.",
+    })
+  }
+
+  const handleEdit = (reviewer: Reviewer) => {
+    setEditingReviewer(reviewer);
+  }
+
+  const handleUpdateReviewer = () => {
+    if (!editingReviewer) return;
+
+    setReviewers(reviewers.map(r => r.id === editingReviewer.id ? editingReviewer : r));
+    toast({
+      title: "Reviewer Updated",
+      description: `${editingReviewer.name}'s details have been updated.`,
+    });
+    setEditingReviewer(null);
   }
 
   return (
@@ -109,9 +135,43 @@ export default function ReviewersPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ReviewersTable reviewers={reviewers} />
+          <ReviewersTable 
+            reviewers={reviewers} 
+            onDeactivate={handleDeactivate}
+            onEdit={handleEdit}
+            />
         </CardContent>
       </Card>
+
+      {/* Edit Reviewer Dialog */}
+      <Dialog open={!!editingReviewer} onOpenChange={(isOpen) => !isOpen && setEditingReviewer(null)}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Edit Reviewer</DialogTitle>
+                    <DialogDescription>
+                       Update the details for {editingReviewer?.name}.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                        <Label htmlFor="edit-name">Full Name</Label>
+                        <Input id="edit-name" value={editingReviewer?.name || ''} onChange={(e) => editingReviewer && setEditingReviewer({...editingReviewer, name: e.target.value})} />
+                    </div>
+                     <div className="grid gap-2">
+                        <Label htmlFor="edit-email">Email</Label>
+                        <Input id="edit-email" type="email" value={editingReviewer?.email || ''} onChange={(e) => editingReviewer && setEditingReviewer({...editingReviewer, email: e.target.value})} />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline" onClick={() => setEditingReviewer(null)}>Cancel</Button>
+                    </DialogClose>
+                     <DialogClose asChild>
+                        <Button onClick={handleUpdateReviewer}>Save Changes</Button>
+                    </DialogClose>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </div>
   );
 }
