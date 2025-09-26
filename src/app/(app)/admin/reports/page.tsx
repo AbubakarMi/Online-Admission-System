@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -8,8 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { mockApplications } from "@/lib/data"
-import { BarChart3, Check, X, Hourglass, FileText } from "lucide-react"
+import { BarChart3, Check, X, Hourglass, Download, FileText } from "lucide-react"
 import { AnalyticsCharts } from "@/components/admin/analytics-charts"
 
 export default function ReportsPage() {
@@ -23,8 +29,20 @@ export default function ReportsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center">
+      <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Reports & Analytics</h1>
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                    <Download />
+                    Generate Report
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => alert("Exporting as CSV...")}>Export as CSV</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => alert("Exporting as PDF...")}>Export as PDF</DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
