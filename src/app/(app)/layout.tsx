@@ -11,7 +11,11 @@ import {
   ShoppingCart,
   Users,
   User,
-  Menu
+  Menu,
+  FolderKanban,
+  FolderCheck,
+  UserCog,
+  BarChart,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -54,6 +58,13 @@ export default async function AppLayout({
     ],
     admin: [
       { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+      { href: "/admin/applications", icon: FolderKanban, label: "Applications" },
+      { href: "/admin/verification", icon: FolderCheck, label: "Document Verification" },
+      { href: "/admin/reviewers", icon: UserCog, label: "Reviewers" },
+      { href: "/admin/reports", icon: BarChart, label: "Reports & Analytics" },
+      { href: "/admin/notifications", icon: Bell, label: "Notifications" },
+      { href: "/admin/users", icon: Users, label: "Users & Roles" },
+      { href: "/admin/settings", icon: Settings, label: "Settings" },
     ],
     staff: [], // Add staff links if needed
   };
