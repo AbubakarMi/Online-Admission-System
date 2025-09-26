@@ -42,3 +42,12 @@ export const mockStudentProfile: Profile = {
       recommendationLetter: null,
     },
   };
+
+  export const mockDocuments = [
+    { id: 'DOC001', applicantName: 'John Smith', documentType: 'Academic Transcript', submittedDate: '2024-05-10', status: 'Pending' },
+    { id: 'DOC002', applicantName: 'John Smith', documentType: 'Recommendation Letter', submittedDate: '2024-05-10', status: 'Verified' },
+    { id: 'DOC003', applicantName: 'Emily Jones', documentType: 'Academic Transcript', submittedDate: '2024-05-12', status: 'Pending' },
+    { id: 'DOC004', applicantName: 'Michael Brown', documentType: 'Academic Transcript', submittedDate: '2024-05-15', status: 'Pending' },
+    { id: 'DOC005', applicantName: 'Sarah Davis', documentType: 'Academic Transcript', submittedDate: '2024-05-18', status: 'Rejected' },
+  ];
+  
