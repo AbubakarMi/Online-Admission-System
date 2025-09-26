@@ -4,24 +4,19 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { ApplicationsTable } from "@/components/admin/applications-table"
-import { ApplicationSummary } from "@/components/admin/application-summary"
+import { Button } from "@/components/ui/button"
 import { mockApplications } from "@/lib/data"
-import { Users, BarChart, Activity, XCircle } from "lucide-react"
+import { Users, BarChart, Activity, XCircle, ArrowRight } from "lucide-react"
+import { ApplicationSummary } from "@/components/admin/application-summary"
+import Link from "next/link"
 
 export default function AdminDashboardPage() {
   const totalApplications = mockApplications.length;
   const acceptedCount = mockApplications.filter(a => a.status === 'Accepted').length;
   const reviewCount = mockApplications.filter(a => a.status === 'Under Review').length;
   const rejectedCount = mockApplications.filter(a => a.status === 'Rejected').length;
-
 
   return (
     <div className="flex flex-col gap-6">
@@ -82,40 +77,44 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
         </div>
-      <Tabs defaultValue="all">
-        <div className="flex items-center">
-          <TabsList>
-            <TabsTrigger value="all">All Applications</TabsTrigger>
-            <TabsTrigger value="summary">AI Summary</TabsTrigger>
-          </TabsList>
+      
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Recent Applications</CardTitle>
+                    <CardDescription>
+                    A quick look at the most recent applications submitted.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {mockApplications.slice(0, 3).map(app => (
+                    <div key={app.id} className="flex items-center justify-between py-2 border-b last:border-none">
+                      <div>
+                        <p className="font-medium">{app.studentName}</p>
+                        <p className="text-sm text-muted-foreground">{app.course}</p>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{app.submissionDate}</p>
+                    </div>
+                  ))}
+                </CardContent>
+                <CardFooter>
+                    <Button asChild variant="outline" className="w-full">
+                        <Link href="/admin/applications">View All Applications <ArrowRight /></Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+            <Card>
+                <CardHeader>
+                <CardTitle>Applicant Pool Summary</CardTitle>
+                <CardDescription>
+                    Generate an AI-powered summary of all applications to identify key trends and top candidates.
+                </CardDescription>
+                </CardHeader>
+                <CardContent>
+                <ApplicationSummary />
+                </CardContent>
+            </Card>
         </div>
-        <TabsContent value="all">
-          <Card>
-            <CardHeader>
-              <CardTitle>Applications</CardTitle>
-              <CardDescription>
-                View, search, and manage all student applications.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ApplicationsTable applications={mockApplications} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="summary">
-          <Card>
-            <CardHeader>
-              <CardTitle>Applicant Pool Summary</CardTitle>
-              <CardDescription>
-                Generate an AI-powered summary of all applications to identify key trends and top candidates.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ApplicationSummary />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
     </div>
   )
 }
