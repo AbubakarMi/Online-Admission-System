@@ -1,3 +1,6 @@
+
+"use client"
+
 import {
   Avatar,
   AvatarFallback,
@@ -13,13 +16,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { getCurrentUser } from "@/lib/auth"
 import Link from "next/link"
 import { LogOut, User as UserIcon, Settings } from "lucide-react"
+import { User } from "@/lib/types"
 
-export async function UserNav() {
-  const user = await getCurrentUser();
+type UserNavProps = {
+  user: User | null
+}
 
+export function UserNav({ user }: UserNavProps) {
   if (!user) {
     return null;
   }

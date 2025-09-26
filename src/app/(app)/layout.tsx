@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link"
@@ -192,7 +193,7 @@ export default function AppLayout({
           <div className="w-full flex-1">
             {/* Can add breadcrumbs or search here */}
           </div>
-          <UserNav />
+          <UserNav user={user} />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background">
           {children}
