@@ -9,7 +9,7 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle2, AlertCircle, Clock, XCircle, FileText } from "lucide-react"
+import { CheckCircle2, AlertCircle, Clock, XCircle, FileText, User } from "lucide-react"
 
 import { getCurrentUser } from "@/lib/auth"
 import { mockApplications } from "@/lib/data"
