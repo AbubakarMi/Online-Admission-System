@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Card,
   CardContent,
@@ -8,20 +10,47 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { mockApplications, mockStudentProfile } from "@/lib/data"
-import { notFound } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp } from "lucide-react"
+import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft } from "lucide-react"
+import React from "react"
+import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
 
 type Params = {
   id: string
 }
 
 export default function ApplicationDetailPage({ params }: { params: Params }) {
-  const application = mockApplications.find((app) => app.id === params.id)
+  const router = useRouter()
+  const { toast } = useToast()
+  
+  // In a real app, you would fetch this data. For now, we simulate state.
+  const [application, setApplication] = React.useState(() => 
+    mockApplications.find((app) => app.id === params.id)
+  )
   const profile = mockStudentProfile // Using mock profile for now
 
   if (!application) {
-    notFound()
+    // We'll show a not found state, but since it's mock data it will always be found.
+    // In a real app, this would handle invalid IDs.
+    return notFound()
+  }
+
+  const handleUpdateStatus = (newStatus: "Accepted" | "Rejected") => {
+    // This would be an API call in a real app.
+    setApplication(prev => prev ? { ...prev, status: newStatus } : prev)
+    
+    // We also need to update the mock source for the table to reflect the change
+    const appIndex = mockApplications.findIndex(a => a.id === params.id);
+    if (appIndex !== -1) {
+      mockApplications[appIndex].status = newStatus;
+    }
+
+    toast({
+      title: `Application ${newStatus}`,
+      description: `${application.studentName}'s application has been ${newStatus.toLowerCase()}.`,
+    });
   }
 
   const getStatusBadgeVariant = (status: string) => {
@@ -40,13 +69,19 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl font-headline">
-          Application Details
-        </h1>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={() => router.back()}>
+            <ArrowLeft />
+            <span className="sr-only">Back</span>
+          </Button>
+          <h1 className="text-lg font-semibold md:text-2xl font-headline">
+            Application Details
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
             <Button variant="outline">Request Correction</Button>
-            <Button variant="destructive" className="gap-2"><ThumbsDown />Reject</Button>
-            <Button className="bg-accent hover:bg-accent/90 gap-2"><ThumbsUp />Approve</Button>
+            <Button variant="destructive" className="gap-2" onClick={() => handleUpdateStatus('Rejected')} disabled={application.status === 'Rejected'}><ThumbsDown />Reject</Button>
+            <Button className="bg-accent hover:bg-accent/90 gap-2" onClick={() => handleUpdateStatus('Accepted')} disabled={application.status === 'Accepted'}><ThumbsUp />Approve</Button>
         </div>
       </div>
 
@@ -113,11 +148,15 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
             <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                     <span>Academic Transcript</span>
-                    <Button variant="secondary" size="sm">View</Button>
+                    <Button variant="secondary" size="sm" asChild>
+                      <Link href="/admin/verification">View</Link>
+                    </Button>
                 </div>
                  <div className="flex items-center justify-between">
                     <span>Recommendation Letter</span>
-                    <Button variant="secondary" size="sm">View</Button>
+                     <Button variant="secondary" size="sm" asChild>
+                      <Link href="/admin/verification">View</Link>
+                    </Button>
                 </div>
             </CardContent>
           </Card>

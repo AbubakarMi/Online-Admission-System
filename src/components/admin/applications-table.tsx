@@ -42,6 +42,13 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import type { Application } from "@/lib/types"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const getStatusBadgeVariant = (status: Application["status"]) => {
   switch (status) {
@@ -85,13 +92,13 @@ export const columns: ColumnDef<Application>[] = [
     accessorKey: "studentName",
     header: "Student",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("studentName")}</div>
+      <div className="capitalize font-medium">{row.getValue("studentName")}</div>
     ),
   },
   {
     accessorKey: "course",
     header: "Course",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("course")}</div>,
+    cell: ({ row }) => <div>{row.getValue("course")}</div>,
   },
   {
     accessorKey: "submissionDate",
@@ -115,6 +122,9 @@ export const columns: ColumnDef<Application>[] = [
         const status = row.getValue("status") as Application["status"];
         return <Badge variant={getStatusBadgeVariant(status)}>{status}</Badge>
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     id: "actions",
@@ -132,17 +142,20 @@ export const columns: ColumnDef<Application>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/applications/${application.id}`}>View application details</Link>
+            </DropdownMenuItem>
+             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(application.id)}
             >
               Copy Application ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/admin/applications/${application.id}`}>View application details</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
               <Link href="/admin/verification">Verify documents</Link>
+            </DropdownMenuItem>
+             <DropdownMenuItem className="text-red-600">
+              Reject Application
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -181,7 +194,7 @@ export function ApplicationsTable({ applications }: { applications: Application[
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Filter by student name..."
           value={(table.getColumn("studentName")?.getFilterValue() as string) ?? ""}
@@ -190,6 +203,28 @@ export function ApplicationsTable({ applications }: { applications: Application[
           }
           className="max-w-sm"
         />
+        <Select
+            value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
+            onValueChange={(value) => {
+                if (value === "all") {
+                     table.getColumn("status")?.setFilterValue(undefined)
+                } else {
+                    table.getColumn("status")?.setFilterValue(value)
+                }
+            }}
+        >
+            <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="Submitted">Submitted</SelectItem>
+                <SelectItem value="Under Review">Under Review</SelectItem>
+                <SelectItem value="Accepted">Accepted</SelectItem>
+                <SelectItem value="Rejected">Rejected</SelectItem>
+            </SelectContent>
+        </Select>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -210,7 +245,7 @@ export function ApplicationsTable({ applications }: { applications: Application[
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.id === 'studentName' ? 'Student' : column.id}
                   </DropdownMenuCheckboxItem>
                 )
               })}
