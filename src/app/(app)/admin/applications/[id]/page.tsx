@@ -9,13 +9,24 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog"
 import { mockApplications, mockStudentProfile } from "@/lib/data"
 import { notFound, useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft } from "lucide-react"
+import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft, UserCheck } from "lucide-react"
 import React from "react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
+import { Application } from "@/lib/types"
 
 type Params = {
   id: string
@@ -25,23 +36,19 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
   const router = useRouter()
   const { toast } = useToast()
   
-  // In a real app, you would fetch this data. For now, we simulate state.
   const [application, setApplication] = React.useState(() => 
     mockApplications.find((app) => app.id === params.id)
   )
-  const profile = mockStudentProfile // Using mock profile for now
+  const profile = mockStudentProfile
+  const [isReviewerAssigned, setIsReviewerAssigned] = React.useState(false);
 
   if (!application) {
-    // We'll show a not found state, but since it's mock data it will always be found.
-    // In a real app, this would handle invalid IDs.
     return notFound()
   }
 
-  const handleUpdateStatus = (newStatus: "Accepted" | "Rejected") => {
-    // This would be an API call in a real app.
+  const handleUpdateStatus = (newStatus: Application["status"]) => {
     setApplication(prev => prev ? { ...prev, status: newStatus } : prev)
     
-    // We also need to update the mock source for the table to reflect the change
     const appIndex = mockApplications.findIndex(a => a.id === params.id);
     if (appIndex !== -1) {
       mockApplications[appIndex].status = newStatus;
@@ -49,7 +56,15 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
 
     toast({
       title: `Application ${newStatus}`,
-      description: `${application.studentName}'s application has been ${newStatus.toLowerCase()}.`,
+      description: `${application.studentName}'s application has been updated to ${newStatus}.`,
+    });
+  }
+
+  const handleAssignReviewer = () => {
+    setIsReviewerAssigned(true);
+     toast({
+      title: "Reviewer Assigned",
+      description: `A reviewer has been assigned to ${application.studentName}'s application.`,
     });
   }
 
@@ -61,6 +76,8 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
         return "secondary"
       case "Rejected":
         return "destructive"
+      case "Correction Requested":
+        return "outline" // Or another color
       default:
         return "outline"
     }
@@ -79,7 +96,7 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-            <Button variant="outline">Request Correction</Button>
+            <Button variant="outline" onClick={() => handleUpdateStatus('Correction Requested')}>Request Correction</Button>
             <Button variant="destructive" className="gap-2" onClick={() => handleUpdateStatus('Rejected')} disabled={application.status === 'Rejected'}><ThumbsDown />Reject</Button>
             <Button className="bg-accent hover:bg-accent/90 gap-2" onClick={() => handleUpdateStatus('Accepted')} disabled={application.status === 'Accepted'}><ThumbsUp />Approve</Button>
         </div>
@@ -172,13 +189,47 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
                  </div>
                  <span className="text-sm text-muted-foreground">by Admin User</span>
                </div>
-               <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
-                 <div className="flex items-center gap-2">
-                    <MinusCircle className="h-5 w-5 text-gray-500" />
-                    <span className="font-semibold">No Reviewer Assigned</span>
-                 </div>
-                 <Button variant="outline" size="sm">Assign</Button>
-               </div>
+               {isReviewerAssigned ? (
+                  <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                        <UserCheck className="h-5 w-5 text-blue-500" />
+                        <span className="font-semibold">Reviewer Assigned</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">Dr. Evelyn Reed</span>
+                  </div>
+               ) : (
+                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <MinusCircle className="h-5 w-5 text-gray-500" />
+                      <span className="font-semibold">No Reviewer Assigned</span>
+                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">Assign</Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Assign Reviewer</DialogTitle>
+                          <DialogDescription>
+                            Select a reviewer to assign to this application. This will notify them to begin their review.
+                          </DialogDescription>
+                        </DialogHeader>
+                        {/* In a real app, this would be a list of actual reviewers */}
+                        <div className="py-4">
+                          <p>Assigning to: <strong>Dr. Evelyn Reed</strong></p>
+                        </div>
+                        <DialogFooter>
+                          <DialogClose asChild>
+                             <Button type="button" variant="secondary">Cancel</Button>
+                          </DialogClose>
+                          <DialogClose asChild>
+                            <Button type="button" onClick={handleAssignReviewer}>Confirm & Assign</Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+               )}
             </CardContent>
           </Card>
         </div>

@@ -60,6 +60,8 @@ const getStatusBadgeVariant = (status: Application["status"]) => {
       return "destructive"
     case "Submitted":
       return "outline"
+    case "Correction Requested":
+        return "outline"
     default:
       return "outline"
   }
@@ -222,6 +224,7 @@ export function ApplicationsTable({ applications }: { applications: Application[
                 <SelectItem value="Under Review">Under Review</SelectItem>
                 <SelectItem value="Accepted">Accepted</SelectItem>
                 <SelectItem value="Rejected">Rejected</SelectItem>
+                <SelectItem value="Correction Requested">Correction Requested</SelectItem>
             </SelectContent>
         </Select>
 

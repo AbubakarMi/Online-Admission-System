@@ -12,7 +12,7 @@ export type Application = {
   course: string;
   faculty: string;
   submissionDate: string;
-  status: 'Submitted' | 'Under Review' | 'Accepted' | 'Rejected';
+  status: 'Submitted' | 'Under Review' | 'Accepted' | 'Rejected' | 'Correction Requested';
 };
 
 export type Profile = {
