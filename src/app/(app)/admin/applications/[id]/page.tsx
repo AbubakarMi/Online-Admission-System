@@ -27,9 +27,41 @@ import React from "react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 import { Application } from "@/lib/types"
+import Image from "next/image"
 
 type Params = {
   id: string
+}
+
+function DocumentViewer({ documentType }: { documentType: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="secondary" size="sm">View</Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>{documentType}</DialogTitle>
+          <DialogDescription>
+            Review the document below. This is a placeholder image.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="relative h-[80vh] bg-gray-100 dark:bg-gray-800 rounded-md">
+           <Image 
+                src="https://picsum.photos/seed/doc-transcript/800/1100"
+                alt="Placeholder for document"
+                fill
+                className="object-contain p-4"
+            />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 export default function ApplicationDetailPage({ params }: { params: Params }) {
@@ -165,15 +197,11 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
             <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                     <span>Academic Transcript</span>
-                    <Button variant="secondary" size="sm" asChild>
-                      <Link href="/admin/verification">View</Link>
-                    </Button>
+                    <DocumentViewer documentType="Academic Transcript" />
                 </div>
                  <div className="flex items-center justify-between">
                     <span>Recommendation Letter</span>
-                     <Button variant="secondary" size="sm" asChild>
-                      <Link href="/admin/verification">View</Link>
-                    </Button>
+                    <DocumentViewer documentType="Recommendation Letter" />
                 </div>
             </CardContent>
           </Card>

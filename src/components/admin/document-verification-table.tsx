@@ -41,12 +41,16 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog"
+import Image from "next/image"
 
 export type Document = {
   id: string
@@ -61,6 +65,40 @@ type DocumentVerificationTableProps = {
     documents: Document[]
     onStatusChange: (docId: string, newStatus: Document["status"]) => void
     hideActions?: boolean
+}
+
+
+function DocumentViewer({ documentType }: { documentType: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+            <Eye className="mr-2 h-4 w-4" /> View
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>{documentType}</DialogTitle>
+          <DialogDescription>
+            Review the document below. This is a placeholder image.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="relative h-[80vh] bg-gray-100 dark:bg-gray-800 rounded-md">
+           <Image 
+                src={`https://picsum.photos/seed/doc-${documentType.replace(/\s+/g, '-')}/800/1100`}
+                alt="Placeholder for document"
+                fill
+                className="object-contain p-4"
+            />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 const getStatusBadgeVariant = (status: Document["status"]) => {
@@ -118,21 +156,13 @@ export function DocumentVerificationTable({ documents, onStatusChange, hideActio
 
         if (hideActions) {
             return (
-                 <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/applications/${document.applicationId}`}>
-                        <Eye className="mr-2 h-4 w-4" /> View
-                    </Link>
-                </Button>
+                 <DocumentViewer documentType={document.documentType} />
             )
         }
 
         return (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" asChild>
-                <Link href={`/admin/applications/${document.applicationId}`}>
-                    <Eye className="mr-2 h-4 w-4" /> View
-                </Link>
-            </Button>
+            <DocumentViewer documentType={document.documentType} />
             <Button
               variant="default"
               size="sm"
