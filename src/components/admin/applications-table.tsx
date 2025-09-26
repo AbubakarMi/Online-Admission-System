@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import {
   ArrowUpDown,
   ChevronDown,
@@ -23,7 +24,6 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -137,8 +137,12 @@ export const columns: ColumnDef<Application>[] = [
               Copy Application ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View application details</DropdownMenuItem>
-            <DropdownMenuItem>Verify documents</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/applications/${application.id}`}>View application details</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/verification">Verify documents</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
