@@ -1,3 +1,4 @@
+
 "use client"
 
 import {
@@ -17,6 +18,7 @@ import {
 import { mockApplications } from "@/lib/data"
 import { BarChart3, Check, X, Hourglass, Download, FileText } from "lucide-react"
 import { AnalyticsCharts } from "@/components/admin/analytics-charts"
+import Link from "next/link"
 
 export default function ReportsPage() {
     const totalApplications = mockApplications.length;
@@ -31,18 +33,12 @@ export default function ReportsPage() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Reports & Analytics</h1>
-         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                    <Download />
-                    Generate Report
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => alert("Exporting as CSV...")}>Export as CSV</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => alert("Exporting as PDF...")}>Export as PDF</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+         <Button asChild variant="outline" className="gap-2">
+            <Link href="/admin/reports/generate">
+                <Download />
+                Generate Report
+            </Link>
+        </Button>
       </div>
       
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
