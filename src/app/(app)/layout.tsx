@@ -174,6 +174,21 @@ export default async function AppLayout({
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background">
           {children}
         </main>
+         <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+            <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+            <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
+            <p className="text-xs text-muted-foreground">
+                Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>
+            </p>
+            <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+            <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
+                Terms of Service
+            </Link>
+            <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
+                Privacy
+            </Link>
+            </nav>
+        </footer>
       </div>
     </div>
   )
