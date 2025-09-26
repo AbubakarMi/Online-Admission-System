@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -51,6 +52,7 @@ import { useToast } from "@/hooks/use-toast"
 export type Document = {
   id: string
   applicantName: string
+  applicationId: string
   documentType: "Academic Transcript" | "Recommendation Letter" | "Passport"
   submittedDate: string
   status: "Pending" | "Verified" | "Rejected"
@@ -126,8 +128,10 @@ export function DocumentVerificationTable({ documents: initialDocuments }: { doc
 
         return (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
-              <Eye className="mr-2 h-4 w-4" /> View
+            <Button variant="outline" size="sm" asChild>
+                <Link href={`/admin/applications/${document.applicationId}`}>
+                    <Eye className="mr-2 h-4 w-4" /> View
+                </Link>
             </Button>
             <Button
               variant="default"

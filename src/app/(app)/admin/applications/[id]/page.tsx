@@ -22,7 +22,7 @@ import {
 import { mockApplications, mockStudentProfile } from "@/lib/data"
 import { notFound, useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft, UserCheck } from "lucide-react"
+import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft, UserCheck, FolderCheck } from "lucide-react"
 import React from "react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
@@ -184,10 +184,12 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
             <CardContent className="space-y-4">
                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
                  <div className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span className="font-semibold">Documents Verified</span>
+                    <FolderCheck className="h-5 w-5 text-blue-500" />
+                    <span className="font-semibold">Documents</span>
                  </div>
-                 <span className="text-sm text-muted-foreground">by Admin User</span>
+                 <Button variant="outline" size="sm" asChild>
+                    <Link href="/admin/verification">Go to Verification</Link>
+                 </Button>
                </div>
                {isReviewerAssigned ? (
                   <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">

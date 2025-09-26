@@ -1,4 +1,6 @@
 import type { Application, User, Profile } from './types';
+import { Document } from '@/components/admin/document-verification-table';
+
 
 export const mockUsers: User[] = [
   { id: '1', name: 'Admin User', email: 'admin@campus.connect', role: 'admin' },
@@ -43,11 +45,11 @@ export const mockStudentProfile: Profile = {
     },
   };
 
-  export const mockDocuments = [
-    { id: 'DOC001', applicantName: 'John Smith', documentType: 'Academic Transcript', submittedDate: '2024-05-10', status: 'Pending' },
-    { id: 'DOC002', applicantName: 'John Smith', documentType: 'Recommendation Letter', submittedDate: '2024-05-10', status: 'Verified' },
-    { id: 'DOC003', applicantName: 'Emily Jones', documentType: 'Academic Transcript', submittedDate: '2024-05-12', status: 'Pending' },
-    { id: 'DOC004', applicantName: 'Michael Brown', documentType: 'Academic Transcript', submittedDate: '2024-05-15', status: 'Pending' },
-    { id: 'DOC005', applicantName: 'Sarah Davis', documentType: 'Academic Transcript', submittedDate: '2024-05-18', status: 'Rejected' },
+  export const mockDocuments: Document[] = [
+    { id: 'DOC001', applicantName: 'John Smith', applicationId: 'APP001', documentType: 'Academic Transcript', submittedDate: '2024-05-10', status: 'Pending' },
+    { id: 'DOC002', applicantName: 'John Smith', applicationId: 'APP001', documentType: 'Recommendation Letter', submittedDate: '2024-05-10', status: 'Verified' },
+    { id: 'DOC003', applicantName: 'Emily Jones', applicationId: 'APP002', documentType: 'Academic Transcript', submittedDate: '2024-05-12', status: 'Pending' },
+    { id: 'DOC004', applicantName: 'Michael Brown', applicationId: 'APP003', documentType: 'Academic Transcript', submittedDate: '2024-05-15', status: 'Pending' },
+    { id: 'DOC005', applicantName: 'Sarah Davis', applicationId: 'APP004', documentType: 'Academic Transcript', submittedDate: '2024-05-18', status: 'Rejected' },
   ];
   
