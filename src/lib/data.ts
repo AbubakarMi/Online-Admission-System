@@ -1,4 +1,4 @@
-import type { Application, User, Profile, Reviewer } from './types';
+import type { Application, User, Profile, Reviewer, Notification } from './types';
 import { Document } from '@/components/admin/document-verification-table';
 
 
@@ -58,5 +58,11 @@ export const mockStudentProfile: Profile = {
     { id: 'REV02', name: 'Dr. Samuel Chen', email: 'samuel.chen@university.edu', assignedApplications: 3, status: 'Active' },
     { id: 'REV03', name: 'Prof. Olivia Grant', email: 'olivia.grant@university.edu', assignedApplications: 8, status: 'Active' },
     { id: 'REV04', name: 'Dr. Benjamin Carter', email: 'ben.carter@university.edu', assignedApplications: 0, status: 'Inactive' },
-  ]
-  
+  ];
+
+export const mockNotifications: Notification[] = [
+  { id: 'NOTIF001', title: 'New Application Submitted', description: 'Michael Brown has submitted an application for Mechanical Engineering.', timestamp: '2 hours ago', isRead: false, link: '/admin/applications/APP003' },
+  { id: 'NOTIF002', title: 'Document Verified', description: 'John Smith\'s Recommendation Letter has been verified.', timestamp: '1 day ago', isRead: true, link: '/admin/verification' },
+  { id: 'NOTIF003', title: 'Application Approved', description: 'Laura Taylor\'s application for Biology has been approved.', timestamp: '2 days ago', isRead: true, link: '/admin/applications/APP006' },
+  { id: 'NOTIF004', title: 'Reviewer Assigned', description: 'Dr. Evelyn Reed has been assigned to a new application.', timestamp: '3 days ago', isRead: true, link: '/admin/reviewers' },
+];

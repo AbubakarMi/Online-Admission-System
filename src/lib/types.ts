@@ -45,3 +45,12 @@ export type Reviewer = {
   assignedApplications: number;
   status: 'Active' | 'Inactive';
 };
+
+export type Notification = {
+  id: string;
+  title: string;
+  description: string;
+  timestamp: string;
+  isRead: boolean;
+  link: string;
+};
