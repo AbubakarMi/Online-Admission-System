@@ -49,6 +49,7 @@ import { getCurrentUser } from "@/lib/auth"
 import { UserNav } from "@/components/user-nav"
 import { Logo } from "@/components/logo"
 import { User as UserType } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 export default function AppLayout({
   children,
@@ -57,10 +58,17 @@ export default function AppLayout({
 }) {
   const [user, setUser] = React.useState<UserType | null>(null);
   const [isHelpCardVisible, setIsHelpCardVisible] = React.useState(true);
+  const router = useRouter();
   
   React.useEffect(() => {
-    getCurrentUser().then(setUser);
-  }, []);
+    getCurrentUser().then(currentUser => {
+        if (!currentUser) {
+            router.push('/login');
+        } else {
+            setUser(currentUser);
+        }
+    });
+  }, [router]);
 
   const userRole = user?.role || 'student';
 
@@ -81,7 +89,10 @@ export default function AppLayout({
       { href: "/admin/roles", icon: Shield, label: "Role Management" },
       { href: "/admin/settings", icon: Settings, label: "Settings" },
     ],
-    staff: [], // Add staff links if needed
+    staff: [
+      { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+      { href: "/admin/applications", icon: FolderKanban, label: "Applications" },
+    ],
   };
 
   const currentNavItems = navItems[userRole] || navItems.student;

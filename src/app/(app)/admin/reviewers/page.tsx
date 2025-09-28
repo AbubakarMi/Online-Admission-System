@@ -25,13 +25,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { ReviewersTable } from "@/components/admin/reviewers-table"
-import { mockReviewers } from "@/lib/data"
-import { Reviewer } from "@/lib/types"
+import { mockReviewers, mockUsers } from "@/lib/data"
+import { Reviewer, User } from "@/lib/types"
 
 
 export default function ReviewersPage() {
   const { toast } = useToast()
   const [reviewers, setReviewers] = React.useState<Reviewer[]>(mockReviewers)
+  const [users, setUsers] = React.useState<User[]>(mockUsers)
   const [newReviewerName, setNewReviewerName] = React.useState("")
   const [newReviewerEmail, setNewReviewerEmail] = React.useState("")
 
@@ -57,9 +58,19 @@ export default function ReviewersPage() {
 
     setReviewers(prev => [...prev, newReviewer]);
 
+    // Also add to the main users list
+    const newUser: User = {
+       id: `usr_${(users.length + 1).toString().padStart(3, '0')}`,
+       name: newReviewerName,
+       email: newReviewerEmail,
+       role: 'staff', // 'staff' is the role for reviewers
+       status: 'Active'
+    }
+    mockUsers.push(newUser); // In a real app, this would be an API call
+
     toast({
         title: "Reviewer Added",
-        description: `${newReviewer.name} has been added to the list of reviewers.`
+        description: `${newReviewer.name} has been added. They can now log in with their email and the default password.`
     })
 
     setNewReviewerName("")
@@ -103,7 +114,7 @@ export default function ReviewersPage() {
                 <DialogHeader>
                     <DialogTitle>Add New Reviewer</DialogTitle>
                     <DialogDescription>
-                        Enter the details for the new reviewer. They will be sent an invitation to join.
+                        Enter the details for the new reviewer. They will be able to log in with their email and the default password.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">

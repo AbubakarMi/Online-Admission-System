@@ -46,7 +46,7 @@ export function UserNav({ user }: UserNavProps) {
   const userInitials = user.name.split(' ').map(n => n[0]).join('')
 
   const handleLogout = () => {
-    // In a real app, this would also clear the user's session
+    sessionStorage.removeItem("currentUser");
     router.push('/')
   }
 
@@ -78,6 +78,12 @@ export function UserNav({ user }: UserNavProps) {
                   <UserIcon className="mr-2 h-4 w-4" />
                   <span>Profile</span>
                 </Link>
+              </DropdownMenuItem>
+            )}
+             {user.role !== 'student' && (
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Change Password</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem>
