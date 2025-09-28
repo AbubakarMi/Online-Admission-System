@@ -20,14 +20,14 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog"
-import { mockApplications, mockStudentProfile } from "@/lib/data"
+import { mockApplications, mockStudentProfile, mockNotifications } from "@/lib/data"
 import { notFound, useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Check, Mail, MinusCircle, Phone, ThumbsDown, ThumbsUp, ArrowLeft, UserCheck, FolderCheck } from "lucide-react"
 import React from "react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
-import { Application } from "@/lib/types"
+import { Application, Notification } from "@/lib/types"
 import Image from "next/image"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -81,6 +81,19 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
   if (!application) {
     return notFound()
   }
+  
+  const addNotification = (title: string, description: string) => {
+    const newNotification: Notification = {
+      id: `NOTIF${(mockNotifications.length + 1).toString().padStart(3, '0')}`,
+      title,
+      description,
+      timestamp: new Date().toISOString(),
+      isRead: false,
+      link: `/admin/applications/${application.id}`
+    };
+    mockNotifications.unshift(newNotification);
+  };
+
 
   const handleUpdateStatus = (newStatus: Application["status"], reason?: string) => {
     setApplication(prev => prev ? { ...prev, status: newStatus } : prev)
@@ -90,12 +103,16 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
       mockApplications[appIndex].status = newStatus;
     }
 
+    const toastMessage = reason 
+      ? `${application.studentName}'s application has been updated. Reason: ${reason}`
+      : `${application.studentName}'s application has been updated to ${newStatus}.`;
+
     toast({
       title: `Application ${newStatus}`,
-      description: reason 
-        ? `${application.studentName}'s application has been updated. Reason: ${reason}`
-        : `${application.studentName}'s application has been updated to ${newStatus}.`,
+      description: toastMessage,
     });
+    
+    addNotification(`Application ${newStatus}`, `Application for ${application.studentName} was updated to ${newStatus}.`);
     setRejectionReason("");
   }
   
@@ -202,13 +219,13 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
               <Separator />
                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
-                  <p className="font-medium">Personal Details</p>
+                  <h3 className="font-medium">Personal Details</h3>
                   <p><strong>Date of Birth:</strong> {profile.personal.dateOfBirth}</p>
                   <p><strong>Gender:</strong> {profile.personal.gender}</p>
                   <p><strong>Nationality:</strong> {profile.personal.nationality}</p>
                  </div>
                  <div>
-                   <p className="font-medium">Contact</p>
+                   <h3 className="font-medium">Contact</h3>
                    <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-muted-foreground" />
                     <span>{profile.contact.email}</span>
