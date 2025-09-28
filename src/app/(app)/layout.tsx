@@ -137,7 +137,7 @@ export default function AppLayout({
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Logo className="h-6 w-6 text-primary" />
-              <span className="">CampusConnect</span>
+              <span className="">Adustech Online System</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -183,7 +183,7 @@ export default function AppLayout({
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Logo className="h-6 w-6 text-primary" />
-                  <span className="sr-only">CampusConnect</span>
+                  <span className="sr-only">Adustech Online System</span>
                 </Link>
                  {currentNavItems.map(item => (
                   <Link
@@ -210,7 +210,7 @@ export default function AppLayout({
           {children}
         </main>
          <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-            <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">&copy; 2024 Adustech Online System. All rights reserved.</p>
             <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
             <p className="text-xs text-muted-foreground">
                 Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>

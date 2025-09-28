@@ -13,7 +13,7 @@ export default function LandingPage() {
       <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 w-full z-50">
         <Link href="#" className="flex items-center justify-center" prefetch={false}>
           <Logo className="h-8 w-8 text-primary" />
-          <span className="sr-only">CampusConnect</span>
+          <span className="sr-only">Adustech Online System</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link href="/login">
@@ -43,7 +43,7 @@ export default function LandingPage() {
                 Your Journey to Higher Education Starts Here
               </h1>
               <p className="text-lg text-gray-200 md:text-xl">
-                CampusConnect provides a seamless and modern application experience for prospective students. Create your profile, submit your application, and track your status all in one place.
+                Adustech Online System provides a seamless and modern application experience for prospective students. Create your profile, submit your application, and track your status all in one place.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row justify-center">
                 <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
@@ -91,7 +91,7 @@ export default function LandingPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Adustech Online System. All rights reserved.</p>
         <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
         <p className="text-xs text-muted-foreground">
             Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>

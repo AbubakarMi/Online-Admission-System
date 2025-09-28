@@ -9,7 +9,7 @@ export default function PrivacyPage() {
         <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 w-full z-50">
              <Link href="/" className="flex items-center justify-center" prefetch={false}>
                 <Logo className="h-8 w-8 text-primary" />
-                <span className="sr-only">CampusConnect</span>
+                <span className="sr-only">Adustech Online System</span>
             </Link>
              <nav className="ml-auto flex gap-4 sm:gap-6">
                 <Link href="/login">
@@ -65,13 +65,13 @@ export default function PrivacyPage() {
                     <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
                     
                     <h2>7. Contact Us</h2>
-                    <p>If you have any questions about this Privacy Policy, please contact us at privacy@campusconnect.com.</p>
+                    <p>If you have any questions about this Privacy Policy, please contact us at privacy@adustechonlinesystem.com.</p>
                 </CardContent>
             </Card>
         </main>
         
         <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-background">
-            <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">&copy; 2024 Adustech Online System. All rights reserved.</p>
             <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
             <p className="text-xs text-muted-foreground">
                 Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/logo";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function TermsPage() {
   return (
@@ -8,7 +9,7 @@ export default function TermsPage() {
         <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 w-full z-50">
              <Link href="/" className="flex items-center justify-center" prefetch={false}>
                 <Logo className="h-8 w-8 text-primary" />
-                <span className="sr-only">CampusConnect</span>
+                <span className="sr-only">Adustech Online System</span>
             </Link>
              <nav className="ml-auto flex gap-4 sm:gap-6">
                 <Link href="/login">
@@ -29,7 +30,7 @@ export default function TermsPage() {
                     <p>Last updated: {new Date().toLocaleDateString()}</p>
                     
                     <h2>1. Introduction</h2>
-                    <p>Welcome to CampusConnect! These Terms of Service ("Terms") govern your use of our website and services. By accessing or using our platform, you agree to be bound by these Terms and our Privacy Policy.</p>
+                    <p>Welcome to Adustech Online System! These Terms of Service ("Terms") govern your use of our website and services. By accessing or using our platform, you agree to be bound by these Terms and our Privacy Policy.</p>
 
                     <h2>2. Use of Our Services</h2>
                     <p>You may use our services only for lawful purposes and in accordance with these Terms. You agree not to use the services:</p>
@@ -43,25 +44,25 @@ export default function TermsPage() {
                     <p>When you create an account with us, you must provide information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our service.</p>
 
                      <h2>4. Intellectual Property</h2>
-                    <p>The Service and its original content, features, and functionality are and will remain the exclusive property of CampusConnect and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.</p>
+                    <p>The Service and its original content, features, and functionality are and will remain the exclusive property of Adustech Online System and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.</p>
 
                     <h2>5. Termination</h2>
                     <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
                     
                     <h2>6. Limitation of Liability</h2>
-                    <p>In no event shall CampusConnect, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.</p>
+                    <p>In no event shall Adustech Online System, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.</p>
                     
                     <h2>7. Changes</h2>
                     <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will try to provide at least 30 days' notice prior to any new terms taking effect.</p>
                     
                     <h2>8. Contact Us</h2>
-                    <p>If you have any questions about these Terms, please contact us at support@campusconnect.com.</p>
+                    <p>If you have any questions about these Terms, please contact us at support@adustechonlinesystem.com.</p>
                 </CardContent>
             </Card>
         </main>
         
         <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-background">
-            <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">&copy; 2024 Adustech Online System. All rights reserved.</p>
             <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
             <p className="text-xs text-muted-foreground">
                 Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>
@@ -78,6 +79,3 @@ export default function TermsPage() {
     </div>
   );
 }
-
-import { Button } from "@/components/ui/button"
-

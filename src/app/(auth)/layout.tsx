@@ -11,12 +11,12 @@ export default function AuthLayout({
       <div className="absolute top-8 left-8">
         <Link href="/" className="flex items-center gap-2 text-foreground">
           <Logo className="h-8 w-8 text-primary" />
-          <span className="text-xl font-semibold">CampusConnect</span>
+          <span className="text-xl font-semibold">Adustech Online System</span>
         </Link>
       </div>
       {children}
       <footer className="absolute bottom-0 flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6">
-        <p className="text-xs text-muted-foreground">&copy; 2024 CampusConnect. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Adustech Online System. All rights reserved.</p>
         <span className="text-xs text-muted-foreground mx-2 hidden sm:inline-block">|</span>
         <p className="text-xs text-muted-foreground">
             Powered by <Link href="https://nubenta-group.vercel.app/technology" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Nubenta Technology Limited</Link>

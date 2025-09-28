@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'CampusConnect',
+  title: 'Adustech Online System',
   description: 'A modern admissions platform.',
 };
 
