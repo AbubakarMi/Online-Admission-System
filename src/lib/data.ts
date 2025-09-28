@@ -73,9 +73,9 @@ export const mockNotifications: Notification[] = [
 ];
 
 export const courseData: Record<string, string[]> = {
-    'Science & Technology': ['Computer Science', 'Data Science', 'Biology', 'Physics', 'Chemistry'],
-    'Business School': ['Business Administration', 'Marketing', 'Finance', 'Accounting', 'International Business'],
-    'Engineering': ['Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Software Engineering', 'Aerospace Engineering'],
-    'Arts & Humanities': ['Fine Arts', 'History', 'Literature', 'Philosophy', 'Music'],
-    'Social Sciences': ['Psychology', 'Sociology', 'Political Science', 'Economics', 'Anthropology']
+    'Science & Technology': ['Computer Science', 'Data Science', 'Biology', 'Physics', 'Chemistry', 'Information Technology', 'Environmental Science'],
+    'Business School': ['Business Administration', 'Marketing', 'Finance', 'Accounting', 'International Business', 'Human Resource Management', 'Entrepreneurship'],
+    'Engineering': ['Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Software Engineering', 'Aerospace Engineering', 'Chemical Engineering', 'Biomedical Engineering'],
+    'Arts & Humanities': ['Fine Arts', 'History', 'Literature', 'Philosophy', 'Music', 'Theater Arts', 'Modern Languages'],
+    'Social Sciences': ['Psychology', 'Sociology', 'Political Science', 'Economics', 'Anthropology', 'International Relations', 'Criminology']
 };
