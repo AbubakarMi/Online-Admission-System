@@ -1,3 +1,6 @@
+
+"use client"
+
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -10,28 +13,65 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
+import * as React from "react"
+import { mockUsers } from "@/lib/data"
+import { User } from "@/lib/types"
 
 export default function SignupPage() {
+    const router = useRouter();
+    const { toast } = useToast();
+    const [fullName, setFullName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    const handleSignup = () => {
+        // In a real app, you'd have more robust validation and an API call
+        if (!fullName || !email || !password) {
+            toast({
+                title: "Signup Failed",
+                description: "Please fill in all fields.",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        const newUser: User = {
+            id: `usr_${Math.random().toString(36).substr(2, 9)}`,
+            name: fullName,
+            email: email,
+            role: 'student', // Default role for all signups
+            status: 'Active'
+        };
+
+        // Add to our mock data (in a real app, this would be an API call)
+        mockUsers.push(newUser);
+        
+        // Simulate login
+        sessionStorage.setItem("currentUser", JSON.stringify(newUser));
+
+        toast({
+            title: "Account Created!",
+            description: `Welcome, ${fullName}! You can now start your application.`
+        });
+
+        router.push("/dashboard");
+    }
+
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Sign Up</CardTitle>
         <CardDescription>
-          Enter your information to create an account
+          Enter your information to create a student account.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="full-name">Full name</Label>
-            <Input id="full-name" placeholder="Jane Doe" required />
+            <Input id="full-name" placeholder="Jane Doe" required value={fullName} onChange={e => setFullName(e.target.value)} />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -40,27 +80,16 @@ export default function SignupPage() {
               type="email"
               placeholder="m@example.com"
               required
+              value={email} 
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
           </div>
-           <div className="grid gap-2">
-                <Label htmlFor="role">Role</Label>
-                <Select>
-                  <SelectTrigger id="role">
-                    <SelectValue placeholder="Select your role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="student">Student</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="staff">Staff</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-          <Button type="submit" className="w-full" asChild>
-            <Link href="/dashboard">Create an account</Link>
+          <Button type="submit" className="w-full" onClick={handleSignup}>
+            Create an account
           </Button>
           <Button variant="outline" className="w-full">
             Sign up with Google
