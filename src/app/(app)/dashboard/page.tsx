@@ -35,7 +35,7 @@ export default async function StudentDashboard() {
     )
   }
 
-  const statusMap = {
+  const statusMap: { [key: string]: any } = {
     Submitted: {
       value: 25,
       label: "Application Submitted",
@@ -64,6 +64,13 @@ export default async function StudentDashboard() {
       description: "A decision has been made on your application. Please check the portal for details.",
       color: "bg-destructive",
     },
+    'Correction Requested': {
+      value: 75,
+      label: "Correction Requested",
+      icon: <AlertCircle className="h-5 w-5 text-yellow-500" />,
+      description: "There is an issue with your application that requires your attention. Please review and resubmit.",
+       color: "bg-yellow-500",
+    }
   }
 
   const currentStatus = statusMap[application.status];
@@ -136,7 +143,7 @@ export default async function StudentDashboard() {
           </CardHeader>
           <CardContent>
              <div className="text-sm font-medium">John Doe</div>
-            <p className="text-xs text-muted-foreground">admissions-officer@campus.connect</p>
+            <p className="text-xs text-muted-foreground">admissions-officer@adustechonlinesystem.com</p>
           </CardContent>
         </Card>
       </div>

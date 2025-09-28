@@ -3,8 +3,8 @@ import { Document } from '@/components/admin/document-verification-table';
 
 
 export const mockUsers: User[] = [
-  { id: '1', name: 'Admin User', email: 'admin@campus.connect', role: 'admin', status: 'Active' },
-  { id: '2', name: 'Jane Doe', email: 'jane.doe@campus.connect', role: 'student', status: 'Active' },
+  { id: '1', name: 'Admin User', email: 'admin@adustechonlinesystem.com', role: 'admin', status: 'Active' },
+  { id: '2', name: 'Jane Doe', email: 'jane.doe@adustechonlinesystem.com', role: 'student', status: 'Active' },
   { id: 'usr_001', name: 'John Smith', email: 'john.smith@example.com', role: 'student', status: 'Active' },
   { id: 'usr_002', name: 'Emily Jones', email: 'emily.jones@example.com', role: 'student', status: 'Active' },
   { id: 'usr_003', name: 'Michael Brown', email: 'michael.brown@example.com', role: 'student', status: 'Active' },
@@ -35,7 +35,7 @@ export const mockStudentProfile: Profile = {
       nationality: 'American',
     },
     contact: {
-      email: 'jane.doe@campus.connect',
+      email: 'jane.doe@adustechonlinesystem.com',
       phone: '123-456-7890',
       address: '123 University Ave, College Town, USA',
     },
