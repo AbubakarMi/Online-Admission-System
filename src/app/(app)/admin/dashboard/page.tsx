@@ -32,18 +32,20 @@ export default function AdminDashboardPage() {
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Admin Dashboard</h1>
       </div>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-          {statCards.map(card => (
+          {statCards.map((card, index) => (
             <Link href={card.href} key={card.title}>
-                <Card className="hover:bg-muted/50 transition-colors">
+                <Card className="group hover:bg-muted/50 transition-all duration-300 hover:scale-105 hover:shadow-lg border-l-4 border-l-transparent hover:border-l-primary">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
+                    <CardTitle className="text-sm font-medium group-hover:text-primary transition-colors">
                         {card.title}
                     </CardTitle>
-                    <card.icon className="h-4 w-4 text-muted-foreground" />
+                    <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <card.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                    </div>
                     </CardHeader>
                     <CardContent>
-                    <div className="text-2xl font-bold">{card.value}</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="text-2xl font-bold mb-1 group-hover:text-primary transition-colors">{card.value}</div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
                         {card.description}
                     </p>
                     </CardContent>
@@ -67,30 +69,63 @@ export default function AdminDashboardPage() {
                 </Card>
             </div>
              <div className="space-y-6">
-                <Card>
+                <Card className="h-fit">
                     <CardHeader>
-                    <CardTitle>Quick Actions</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                        <Settings className="h-5 w-5 text-primary" />
+                        Quick Actions
+                    </CardTitle>
+                    <CardDescription>
+                        Common administrative tasks
+                    </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-2">
-                        <Button asChild variant="outline" className="justify-start">
-                            <Link href="/admin/applications">View All Applications <ArrowRight className="ml-auto"/></Link>
+                    <CardContent className="flex flex-col gap-3">
+                        <Button asChild variant="outline" className="justify-start group hover:bg-primary/5 hover:border-primary/20 transition-all">
+                            <Link href="/admin/applications">
+                                <div className="flex items-center w-full">
+                                    <Users className="mr-3 h-4 w-4 text-primary" />
+                                    <span className="flex-1 text-left">View All Applications</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform"/>
+                                </div>
+                            </Link>
                         </Button>
-                        <Button asChild variant="outline" className="justify-start">
-                            <Link href="/admin/verification">Verify Documents <FolderCheck className="ml-auto"/></Link>
+                        <Button asChild variant="outline" className="justify-start group hover:bg-primary/5 hover:border-primary/20 transition-all">
+                            <Link href="/admin/verification">
+                                <div className="flex items-center w-full">
+                                    <FolderCheck className="mr-3 h-4 w-4 text-primary" />
+                                    <span className="flex-1 text-left">Verify Documents</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform"/>
+                                </div>
+                            </Link>
                         </Button>
-                        <Button asChild variant="outline" className="justify-start">
-                            <Link href="/admin/reviewers">Manage Reviewers <UserCog className="ml-auto"/></Link>
+                        <Button asChild variant="outline" className="justify-start group hover:bg-primary/5 hover:border-primary/20 transition-all">
+                            <Link href="/admin/reviewers">
+                                <div className="flex items-center w-full">
+                                    <UserCog className="mr-3 h-4 w-4 text-primary" />
+                                    <span className="flex-1 text-left">Manage Reviewers</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform"/>
+                                </div>
+                            </Link>
                         </Button>
-                        <Button asChild variant="outline" className="justify-start">
-                            <Link href="/admin/settings">System Settings <Settings className="ml-auto"/></Link>
+                        <Button asChild variant="outline" className="justify-start group hover:bg-primary/5 hover:border-primary/20 transition-all">
+                            <Link href="/admin/settings">
+                                <div className="flex items-center w-full">
+                                    <Settings className="mr-3 h-4 w-4 text-primary" />
+                                    <span className="flex-1 text-left">System Settings</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform"/>
+                                </div>
+                            </Link>
                         </Button>
                     </CardContent>
                 </Card>
-                 <Card>
+                 <Card className="h-fit">
                     <CardHeader>
-                    <CardTitle>Applicant Pool Summary</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                        <BarChart className="h-5 w-5 text-primary" />
+                        Applicant Pool Summary
+                    </CardTitle>
                     <CardDescription>
-                        Generate an AI-powered summary of all applications.
+                        Generate an AI-powered summary of all applications using advanced analytics.
                     </CardDescription>
                     </CardHeader>
                     <CardContent>

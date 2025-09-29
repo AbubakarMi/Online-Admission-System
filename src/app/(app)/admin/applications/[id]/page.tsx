@@ -36,6 +36,10 @@ type Params = {
   id: string
 }
 
+type PageProps = {
+  params: Promise<Params>
+}
+
 function DocumentViewer({ documentType }: { documentType: string }) {
   return (
     <Dialog>
@@ -67,16 +71,29 @@ function DocumentViewer({ documentType }: { documentType: string }) {
   )
 }
 
-export default function ApplicationDetailPage({ params }: { params: Params }) {
+export default function ApplicationDetailPage({ params }: PageProps) {
   const router = useRouter()
   const { toast } = useToast()
-  
-  const [application, setApplication] = React.useState(() => 
-    mockApplications.find((app) => app.id === params.id)
-  )
+  const [resolvedParams, setResolvedParams] = React.useState<Params | null>(null)
+
+  React.useEffect(() => {
+    params.then(setResolvedParams)
+  }, [params])
+
+  const [application, setApplication] = React.useState<Application | undefined>()
+
+  React.useEffect(() => {
+    if (resolvedParams) {
+      setApplication(mockApplications.find((app) => app.id === resolvedParams.id))
+    }
+  }, [resolvedParams])
   const profile = mockStudentProfile
   const [isReviewerAssigned, setIsReviewerAssigned] = React.useState(false);
   const [rejectionReason, setRejectionReason] = React.useState("");
+
+  if (!resolvedParams) {
+    return <div>Loading...</div>
+  }
 
   if (!application) {
     return notFound()
@@ -98,7 +115,7 @@ export default function ApplicationDetailPage({ params }: { params: Params }) {
   const handleUpdateStatus = (newStatus: Application["status"], reason?: string) => {
     setApplication(prev => prev ? { ...prev, status: newStatus } : prev)
     
-    const appIndex = mockApplications.findIndex(a => a.id === params.id);
+    const appIndex = mockApplications.findIndex(a => a.id === resolvedParams.id);
     if (appIndex !== -1) {
       mockApplications[appIndex].status = newStatus;
     }

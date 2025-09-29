@@ -6,7 +6,7 @@ import { getApplicationSummary } from '@/lib/actions';
 import { Bot, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const initialState = {
+const initialState: { message: string | null; error: string | null } = {
   message: null,
   error: null,
 };

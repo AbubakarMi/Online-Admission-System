@@ -19,6 +19,7 @@ import {
 import Link from "next/link"
 import { LogOut, User as UserIcon, Settings } from "lucide-react"
 import { User } from "@/lib/types"
+import { logout } from "@/lib/auth"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,9 +46,14 @@ export function UserNav({ user }: UserNavProps) {
   
   const userInitials = user.name.split(' ').map(n => n[0]).join('')
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("currentUser");
-    router.push('/')
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      router.push('/');
+    }
   }
 
   return (
