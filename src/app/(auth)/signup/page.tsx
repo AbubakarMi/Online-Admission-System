@@ -22,6 +22,7 @@ import { Eye, EyeOff } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { WelcomeModal } from "@/components/ui/welcome-modal"
 import { signUp } from "@/lib/auth"
+import Animated404 from "@/components/ui/animated-404"
 
 export default function SignupPage() {
     const router = useRouter();
@@ -33,12 +34,15 @@ export default function SignupPage() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [showWelcomeModal, setShowWelcomeModal] = React.useState(false);
     const [newUser, setNewUser] = React.useState<User | null>(null);
+  const [show404, setShow404] = React.useState(false);
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
 
     const handleSignup = async () => {
         setIsLoading(true);
+    // show 404 overlay briefly when signup starts
+    setShow404(true);
 
         try {
             // Input validation
@@ -97,6 +101,7 @@ export default function SignupPage() {
             });
         } finally {
             setIsLoading(false);
+      setTimeout(() => setShow404(false), 2600);
         }
     }
 
@@ -254,6 +259,7 @@ export default function SignupPage() {
           onContinue={handleContinueToDashboard}
         />
       )}
+      <Animated404 isOpen={show404} onClose={() => setShow404(false)} durationMs={2500} />
     </div>
   )
 }

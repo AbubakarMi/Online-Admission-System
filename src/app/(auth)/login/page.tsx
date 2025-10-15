@@ -22,6 +22,7 @@ import { signIn } from "@/lib/auth"
 import { Eye, EyeOff } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { WelcomeModal } from "@/components/ui/welcome-modal"
+import Animated404 from "@/components/ui/animated-404"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -32,6 +33,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = React.useState(false)
   const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
   const [loggedInUser, setLoggedInUser] = React.useState<User | null>(null)
+  const [show404, setShow404] = React.useState(false)
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -54,74 +56,19 @@ export default function LoginPage() {
     }
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleLogin = async () => {
+    // Immediately show the 404 overlay on click so the user sees the animation
+    setShow404(true)
     setIsLoading(true)
 
-    try {
-      // Input validation
-      if (!email.trim() || !password.trim()) {
-        toast({
-          title: "Login Failed",
-          description: "Please enter both email and password.",
-          variant: "destructive",
-        })
-        return
-      }
-
-      let user: User | undefined;
-
-      // Admin Login
-      if (email === "SuperAdmin" && password === "DefaultPass123") {
-        user = mockUsers.find(u => u.role === 'admin')
-      } else {
-        // Reviewer/Student Login
-        user = mockUsers.find(u => u.email === email)
-        if (user && user.role !== 'admin' && password !== 'DefaultPass123') {
-          // For prototype, use a generic password
-          if (password !== 'password123') {
-            user = undefined;
-          }
-        } else if (user && user.role === 'staff' && password !== 'DefaultPass123') {
-          user = undefined;
-        }
-      }
-
-      if (user && user.status === 'Active') {
-        const { user: authUser, error } = await signIn(user.email, password)
-        if (error) {
-          toast({
-            title: "Login Failed",
-            description: error,
-            variant: "destructive",
-          })
-          return
-        }
-        setLoggedInUser(authUser)
-        setShowWelcomeModal(true)
-      } else if (user && user.status === 'Inactive') {
-        toast({
-          title: "Account Inactive",
-          description: "Your account has been deactivated. Please contact support.",
-          variant: "destructive",
-        })
-      } else {
-        toast({
-          title: "Login Failed",
-          description: "Invalid credentials. Please try again.",
-          variant: "destructive",
-        })
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-      toast({
-        title: "Login Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
+    // Keep the simulated 404 visible for the same duration as the Animated404 component,
+    // then hide it and stop loading. This intentionally prevents the rest of the login
+    // logic from running so the 404 is the visible result of the click.
+    await new Promise<void>((resolve) => setTimeout(() => {
       setIsLoading(false)
-    }
+      setShow404(false)
+      resolve()
+    }, 2500))
   }
 
   return (
@@ -147,7 +94,7 @@ export default function LoginPage() {
               Enter your credentials below to access your account.
             </CardDescription>
 
-            {/* Demo Credentials */}
+            {/* Demo Credentials
             <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-border/50">
               <h4 className="font-semibold text-sm mb-3 text-center">Demo Credentials</h4>
               <div className="space-y-2 text-xs">
@@ -164,10 +111,10 @@ export default function LoginPage() {
                   <code className="bg-muted px-2 py-1 rounded">evelyn.reed@university.edu / DefaultPass123</code>
                 </div>
               </div>
-            </div>
+            </div> */}
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium">Email or Username</Label>
@@ -217,7 +164,8 @@ export default function LoginPage() {
 
               <div className="space-y-4">
                 <Button
-                  type="submit"
+                  type="button"
+                  onClick={handleLogin}
                   className="w-full h-12 gradient-primary shadow-glow hover:shadow-xl text-white font-semibold interactive"
                   disabled={isLoading}
                 >
@@ -274,6 +222,8 @@ export default function LoginPage() {
           onContinue={handleContinueToDashboard}
         />
       )}
+      {/* 404 animation overlay */}
+      <Animated404 isOpen={show404} onClose={() => setShow404(false)} durationMs={2500} />
     </div>
   )
 }
